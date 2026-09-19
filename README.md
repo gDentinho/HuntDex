@@ -134,3 +134,4 @@ Os testes de navegador usam Playwright CLI e Chrome.
 ## Privacidade
 
 Sem login, os dados persistentes permanecem somente no navegador. Com login, as hunts e configurações são enviadas ao projeto Supabase escolhido para permitir sincronização entre dispositivos. A análise e a montagem dos dashboards continuam sendo executadas no cliente.
+
