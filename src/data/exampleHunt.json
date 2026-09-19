@@ -1,0 +1,245 @@
+{
+  "Drops": [
+    {
+      "Item": "Enigma Stone",
+      "Count": 1,
+      "Unit price": 5000,
+      "Total price": 5000,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "psychic spoon",
+      "Count": 9,
+      "Unit price": 180,
+      "Total price": 1620,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "future orb",
+      "Count": 102,
+      "Unit price": 15.5,
+      "Total price": 1581,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "enchanted gem",
+      "Count": 4831,
+      "Unit price": 0.5,
+      "Total price": 2415.5,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "psychic pendant",
+      "Count": 41,
+      "Unit price": 20,
+      "Total price": 820,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    }
+  ],
+  "Supplies": [
+    {
+      "Item": "Revive",
+      "Count": 75,
+      "Unit price": 250,
+      "Total price": 18750,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "Medicine",
+      "Count": 417,
+      "Unit price": 2,
+      "Total price": 834,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "Hyper Potion",
+      "Count": 1,
+      "Unit price": 55,
+      "Total price": 55,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Item": "Empty Yume Ball",
+      "Count": 2,
+      "Unit price": 0,
+      "Total price": 0,
+      "Ignored": null,
+      "Player": "Spectral Flame"
+    }
+  ],
+  "Enemies Defeated": [
+    {
+      "Enemy": "Alakazam",
+      "Count": 242,
+      "Rare": false,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Kadabra",
+      "Count": 46,
+      "Rare": false,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Hypno",
+      "Count": 41,
+      "Rare": false,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Abra",
+      "Count": 8,
+      "Rare": false,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Drowzee",
+      "Count": 5,
+      "Rare": false,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Shiny Alakazam",
+      "Count": 1,
+      "Rare": true,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Shiny Hypno",
+      "Count": 1,
+      "Rare": true,
+      "Ignored": false,
+      "Player": "Spectral Flame"
+    }
+  ],
+  "Experience": [
+    {
+      "Player": "Spectral Flame",
+      "Experience": 194023
+    }
+  ],
+  "Damage": [
+    {
+      "Enemy": "Alakazam",
+      "Element": "Ghost",
+      "Damage dealt": 1818638,
+      "Damage taken": 0,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Alakazam",
+      "Element": "Psychic",
+      "Damage dealt": 120000,
+      "Damage taken": 150000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Kadabra",
+      "Element": "Ghost",
+      "Damage dealt": 80000,
+      "Damage taken": 0,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Kadabra",
+      "Element": "Fire",
+      "Damage dealt": 70000,
+      "Damage taken": 0,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Kadabra",
+      "Element": "Psychic",
+      "Damage dealt": 0,
+      "Damage taken": 42000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Hypno",
+      "Element": "Ghost",
+      "Damage dealt": 70000,
+      "Damage taken": 0,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Hypno",
+      "Element": "Grass",
+      "Damage dealt": 60000,
+      "Damage taken": 0,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Hypno",
+      "Element": "Melee",
+      "Damage dealt": 0,
+      "Damage taken": 50000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Abra",
+      "Element": "Neutral",
+      "Damage dealt": 22000,
+      "Damage taken": 10000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Drowzee",
+      "Element": "Dark",
+      "Damage dealt": 20000,
+      "Damage taken": 15000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Shiny Alakazam",
+      "Element": "Ghost",
+      "Damage dealt": 50000,
+      "Damage taken": 3000,
+      "Player": "Spectral Flame"
+    },
+    {
+      "Enemy": "Shiny Hypno",
+      "Element": "Ghost",
+      "Damage dealt": 30492,
+      "Damage taken": 2869,
+      "Player": "Spectral Flame"
+    }
+  ],
+  "Session": {
+    "Status": "Paused",
+    "Time to next level": "01:12:15",
+    "Profit": -8203,
+    "Damage taken": 272869,
+    "Supplies": 19639,
+    "Session ID": 1742,
+    "Supplies per hour": 39966,
+    "Profit per hour": -16693,
+    "Duration seconds": 1769,
+    "Duration": "00:29:29",
+    "Start": "2026-09-18 21:23:46",
+    "Rare kills": 2,
+    "Damage dealt per second": 1323,
+    "Experience per hour": 394846,
+    "Kills per hour": 700,
+    "Damage dealt": 2341130,
+    "Damage taken per second": 154,
+    "Rare kills per hour": 4,
+    "Kills": 344,
+    "Raw gains": 11436,
+    "Raw gains per hour": 23273,
+    "Experience": 194023
+  }
+}

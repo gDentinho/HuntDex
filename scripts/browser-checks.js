@@ -1,0 +1,108 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+async (page) => {
+  const baseURL = page.url().split('/').slice(0,3).join('/');
+  const errors = [];
+  const requests = [];
+  page.on('pageerror', error => errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error' || message.type() === 'warning') errors.push(message.text()); });
+  const checks = [];
+  const check = async (name, result) => { if (!await result) throw new Error(name+' (após '+checks.length+' verificações)'); checks.push(name); };
+  await page.goto(baseURL);
+  await page.setViewportSize({width:1440,height:1000});
+  const analyze = () => page.getByRole('button',{name:'Analisar Hunt',exact:true});
+  const editor = () => page.getByRole('textbox',{name:'Estatísticas da hunt'});
+  const validated = async () => { await page.waitForFunction(() => document.querySelector('#json-validation')?.textContent?.includes('JSON válido')); };
+  const overflow = () => page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+  await check('editor vazio bloqueia análise', analyze().isDisabled());
+  await page.screenshot({path:'output/playwright/editor-desktop.png',fullPage:true});
+  await page.getByRole('button',{name:'Usar exemplo'}).click();
+  await validated();
+  const fixture = await editor().inputValue();
+  page.on('request', request => requests.push({url:request.url(),method:request.method(),body:request.postData()}));
+  await analyze().click();
+  await page.getByRole('heading',{name:/Hunt de Spectral Flame/}).waitFor();
+  const cards = {Profit:['-8.203','-16.693'],Experience:['194.023','394.846'],Loot:['11.436','23.273'],Supplies:['19.639','39.966'],Kills:['344','700'],Duração:['29:29','01:12:15']};
+  for (const [name,values] of Object.entries(cards)) {
+    const content=await page.getByRole('article',{name,exact:true}).innerText();
+    await check('totais oficiais: '+name,values.every(value=>content.includes(value)));
+  }
+  await check('data sem conversão de fuso',page.getByText('18/09/2026 às 21:23',{exact:true}).isVisible());
+  await check('combate completo',page.getByText('2.341.130',{exact:true}).first().isVisible());
+  await page.mouse.move(0,0);
+  await page.screenshot({path:'output/playwright/dashboard-desktop.png',fullPage:true});
+  await check('desktop sem overflow',!(await overflow()));
+  await page.getByRole('tab',{name:/^Loot/}).click();
+  await check('loot inicia pelo item mais valioso',(await page.locator('tbody tr').first().innerText()).includes('Enigma Stone'));
+  await page.getByRole('button',{name:'Quantidade',exact:true}).click();
+  await check('ordenação por quantidade',(await page.locator('tbody tr').first().innerText()).includes('enchanted gem'));
+  await page.getByRole('button',{name:'Valor unit.',exact:true}).click();
+  await check('ordenação por preço unitário',(await page.locator('tbody tr').first().innerText()).includes('Enigma Stone'));
+  await page.getByRole('button',{name:'Valor total',exact:true}).click();
+  await page.getByRole('button',{name:'Valor total',exact:true}).click();
+  await check('ordenação crescente',(await page.locator('tbody tr').first().innerText()).includes('psychic pendant'));
+  await page.getByRole('tab',{name:/^Supplies/}).click();
+  const free = await page.getByRole('row').filter({hasText:'Empty Yume Ball'}).innerText();
+  await check('supply gratuito preservado',free.includes('2')&&free.includes('0'));
+  await page.getByRole('tab',{name:/^Pokémon/}).click();
+  await check('duas criaturas raras',await page.locator('tbody tr').filter({hasText:'Rare'}).count()===2);
+  await check('kills somam 344',(await page.locator('tbody tr td:nth-child(2)').allTextContents()).reduce((sum,value)=>sum+Number(value.replaceAll('.','')),0)===344);
+  await page.getByRole('tab',{name:'Damage',exact:true}).click();
+  await check('dano agregado por Pokémon',(await page.locator('table').first().locator('tbody tr').first().innerText()).includes('1.938.638'));
+  await check('dano agregado por elemento',(await page.locator('table').nth(1).locator('tbody tr').first().innerText()).includes('2.049.130'));
+  await page.screenshot({path:'output/playwright/damage-desktop.png',fullPage:true});
+  await page.getByRole('tab',{name:'Visão Geral'}).focus();
+  await page.keyboard.press('ArrowRight');
+  await page.getByRole('tabpanel',{name:/^Loot/}).waitFor();
+  await check('abas navegáveis pelo teclado',await page.getByRole('tab',{name:/^Loot/}).getAttribute('data-state')==='active');
+  for (const width of [768,390,320]) {
+    await page.setViewportSize({width,height:844});
+    for (const tab of [/^Loot/,/^Supplies/,/^Pokémon/,/^Damage/,/^Visão Geral/]) {
+      await page.getByRole('tab',{name:tab}).click();
+      await check('sem overflow em '+width+'px, aba '+tab,!(await overflow()));
+    }
+    await page.mouse.move(0,0);
+    await page.screenshot({path:'output/playwright/dashboard-'+width+'.png',fullPage:true});
+  }
+  await page.getByRole('button',{name:'Editar JSON',exact:true}).click();
+  await check('edição mantém o JSON original',await editor().inputValue()===fixture);
+  await editor().fill('{"Session":');
+  await page.waitForFunction(()=>document.querySelector('#json-validation')?.textContent?.includes('JSON inválido'));
+  await check('JSON malformado bloqueia análise',analyze().isDisabled());
+  await page.getByRole('button',{name:'Voltar à análise atual'}).click();
+  await check('resultado anterior preservado',page.getByRole('article',{name:'Profit',exact:true}).getByText('-8.203',{exact:true}).isVisible());
+  await page.getByRole('button',{name:'Analisar outra hunt',exact:true}).click();
+  await check('nova hunt limpa editor',await editor().inputValue()==='');
+  await editor().fill('{"hello":"world"}');
+  await page.waitForFunction(()=>document.querySelector('#json-validation')?.textContent?.includes('não encontramos'));
+  await check('estrutura desconhecida bloqueia análise',analyze().isDisabled());
+  await editor().fill('{"Session":{},"Drops":[]}');
+  await page.waitForFunction(()=>document.querySelector('#json-validation')?.textContent?.includes('suficientes'));
+  await check('sessão vazia tem erro específico',analyze().isDisabled());
+  await editor().fill('{"Session":{"Duration seconds":1200},"Drops":[],"Supplies":[],"Enemies Defeated":[]}');
+  await validated();await analyze().click();
+  await page.getByRole('heading',{name:/Hunt de Jogador desconhecido/}).waitFor();
+  await check('sem XP inventado',await page.getByRole('article',{name:'Experience',exact:true}).count()===0);
+  await check('sem NaN/Infinity/undefined no conteúdo',!(/NaN|Infinity|undefined/.test(await page.locator('main').innerText())));
+  await check('sem overflow em sessão parcial',!(await overflow()));
+  await page.getByRole('button',{name:'Analisar outra hunt',exact:true}).click();
+  await editor().fill('{"Session":{"Experience per hour":1000,"Kills per hour":100,"Time to next level seconds":600}}');
+  await validated();await analyze().click();
+  await page.getByRole('heading',{name:/Hunt de Jogador desconhecido/}).waitFor();
+  await check('XP/h disponível sem XP total',page.getByRole('article',{name:'Experience',exact:true}).isVisible());
+  await check('kills/h disponíveis sem kills totais',page.getByRole('article',{name:'Kills',exact:true}).isVisible());
+  await check('tempo para level sem duração',(await page.getByRole('article',{name:'Duração',exact:true}).innerText()).includes('10:00'));
+  await page.getByRole('button',{name:'Analisar outra hunt',exact:true}).click();
+  const many = {Drops:Array.from({length:61},(_,i)=>({Item:'Item '+i,Player:'Teste',Count:1,'Unit price':i,'Total price':i,Ignored:null})),Session:{'Duration seconds':3600}};
+  await editor().fill(JSON.stringify(many));await validated();await analyze().click();
+  await page.getByRole('tab',{name:/^Loot/}).click();
+  await check('tabela limita renderização a 25 registros',await page.locator('tbody tr').count()===25);
+  await page.getByRole('button',{name:'Próxima página'}).click();
+  await check('paginação muda registros',(await page.locator('tbody tr').first().innerText()).includes('Item 35'));
+  await check('nenhum dado da hunt enviado',!requests.some(r=>r.body || !r.url.startsWith(baseURL+'/')));
+  await check('nenhum erro ou aviso de console',errors.length===0);
+  console.log(JSON.stringify({consoleErrors:errors,requestsDuringAnalysis:requests.length,network:requests}));
+  await page.getByRole('button',{name:'Analisar outra hunt',exact:true}).click();
+  await page.getByRole('button',{name:'Usar exemplo'}).click();await validated();await analyze().click();
+  await page.setViewportSize({width:1440,height:1000});
+  return {passed:checks.length,checks,consoleErrors:errors,requestsDuringAnalysis:requests.length,network:requests};
+}

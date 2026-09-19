@@ -1,0 +1,31 @@
+HuntDex — Discord + Supabase patch
+
+Arquivos alterados:
+- package.json
+- README.md
+- src/app/globals.css
+- src/app/layout.tsx
+- src/components/library/BackupPage.tsx
+- src/components/library/HuntDexApp.tsx
+- src/components/library/useHuntLibrary.ts
+
+Arquivos novos:
+- .env.example
+- PATCH-INSTALL.txt
+- PATCH-MANIFEST.txt
+- src/components/auth/AuthMenu.tsx
+- src/components/auth/useAuth.ts
+- src/lib/cloud/huntsRepository.ts
+- src/lib/cloud/serialization.ts
+- src/lib/supabase/client.ts
+- src/lib/supabase/config.ts
+- supabase/SETUP.md
+- supabase/migrations/202609190001_huntdex_cloud.sql
+- tests/cloud-serialization.test.ts
+
+Validação executada neste ambiente:
+- TypeScript: aprovado (com declaração local temporária para o pacote Supabase, pois o ambiente não permite baixar pacotes npm)
+- ESLint: aprovado
+- Build/testes completos: não executáveis neste Linux usando o node_modules vindo do ZIP do Windows; o Next/Vitest tenta baixar bindings Linux e a rede do ambiente está bloqueada.
+
+Após extrair o patch no Windows, rode `npm install` e depois os comandos de validação de PATCH-INSTALL.txt.

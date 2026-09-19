@@ -1,0 +1,28 @@
+HuntDex — atualização para GitHub/Vercel
+
+ALTERADOS
+- src/lib/formatters.ts
+  - novo formatRate para cards por hora mais legíveis.
+- src/components/analyzer/MetricCard.tsx
+  - taxas /h deixam de exibir casas decimais excessivas.
+- src/components/auth/AuthMenu.tsx
+  - avatar do Discord quando disponível; fallback de inicial mais robusto.
+- .env.example
+  - instruções para ambiente local e Vercel.
+- README.md
+  - fluxo GitHub/Vercel e CI.
+- supabase/SETUP.md
+  - configuração de produção.
+
+NOVOS
+- .github/workflows/ci.yml
+  - npm ci + testes + TypeScript + ESLint + build em push/PR.
+- .nvmrc
+  - Node 22.
+- VERCEL-DEPLOY.md
+  - roteiro completo de publicação e OAuth em produção.
+- PATCH-INSTALL-GITHUB-VERCEL.txt
+- PATCH-MANIFEST-GITHUB-VERCEL.txt
+
+IMPORTANTE
+- O package-lock.json NÃO está dentro deste patch para não sobrescrever o lockfile correto gerado no Windows pelo `npm install` que você já executou. Faça commit do package-lock.json local junto com os arquivos deste patch.

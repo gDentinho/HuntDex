@@ -1,0 +1,20 @@
+HuntDex - Patch Vitest Alias
+
+Problema corrigido:
+Vitest nao estava resolvendo o alias @/* configurado no tsconfig.json.
+Isso fazia tests/cloud-serialization.test.ts falhar ao importar
+@/lib/db/huntsRepository a partir de src/lib/cloud/serialization.ts.
+
+Aplicacao:
+1. Extraia este patch na raiz do projeto HuntDex:
+   C:\Users\User\Documents\ChatGPT\HuntDex
+
+2. O arquivo vitest.config.ts deve ficar na raiz, ao lado de package.json.
+
+3. Rode:
+   npm test
+   npm run typecheck
+   npm run lint
+   npm run build
+
+Nenhuma dependencia adicional e necessaria.

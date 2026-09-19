@@ -1,0 +1,16 @@
+HuntDex — PATCH GitHub + Vercel
+
+1. Extraia o conteúdo deste ZIP sobre a pasta atual do HuntDex.
+2. NÃO copie nem publique seu .env.local.
+3. Como você já executou `npm install` após o patch Supabase, mantenha o package-lock.json atualizado que existe no seu computador.
+4. Rode:
+
+   npm test
+   npm run typecheck
+   npm run lint
+   npm run build
+
+5. Faça o commit incluindo também o package-lock.json local atualizado.
+6. Leia VERCEL-DEPLOY.md antes do primeiro deploy.
+
+Este patch não contém node_modules, .next, .env.local, chaves secretas ou Client Secret do Discord.
